@@ -15,7 +15,7 @@ wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name
 hash_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "hash_value_file")
 
 # get the sleep seconds
-wait_time = read_configs.get_one_option("CHECK_FILE_DETAILS", "read_wait_time")
+wait_time = int(read_configs.get_one_option("CHECK_FILE_DETAILS", "read_wait_time"))
 
 
 
