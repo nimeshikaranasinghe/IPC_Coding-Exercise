@@ -4,8 +4,8 @@ import configparser
 
 class ReadConfig:
 
-    iniFileName = 'File_Configs.ini'
-    config_file_location = '~/src/'
+    iniFileName = 'Employee_Configs.ini'
+    config_file_location = '/x01/nimeshikar/Assignment/SalarySlipGenerator/src/'
 
     configParser = ''
     configFilePath = ''
