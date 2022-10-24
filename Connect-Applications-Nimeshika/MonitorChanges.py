@@ -59,8 +59,10 @@ def MonitorChanges():
     while True:
         changed_bool = check_json()
         if(changed_bool == True):
+            print ("returned true")
             conn.send('different')
         else:
+            print ("returned false")
             conn.send('same')
         time.sleep(1)               # sleep for 1 second
     # conn.close()
