@@ -62,7 +62,7 @@ def error(msg):
     """ ERROR Message """
 
     sys.stdout.write(ERROR)
-    print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " ERROR " + msg)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " ERROR " + msg)
     sys.stdout.write(RESET)
     logger.error(msg)
 
@@ -71,7 +71,7 @@ def warn(msg):
     """ WARNING Message """
 
     sys.stdout.write(WARN)
-    print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " WARNING " + msg)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " WARNING " + msg)
     sys.stdout.write(RESET) 
     logger.warning(msg)
 
@@ -80,7 +80,7 @@ def info(msg):
     """ INFORMATION """
 
     sys.stdout.write(INFO)
-    print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " INFO " + msg)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " INFO " + msg)
     sys.stdout.write(RESET)
     logger.info(msg)
 
