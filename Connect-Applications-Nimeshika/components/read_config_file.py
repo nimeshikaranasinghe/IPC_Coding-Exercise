@@ -5,7 +5,7 @@ import configparser
 class ReadConfig:
 
     iniFileName = 'File_Configs.ini'
-    config_file_location = '~/src/'
+    config_file_location = 'src/'
 
     configParser = ''
     configFilePath = ''

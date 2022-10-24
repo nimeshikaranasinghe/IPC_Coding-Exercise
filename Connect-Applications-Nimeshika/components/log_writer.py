@@ -33,7 +33,7 @@ now_date_time = datetime.datetime.now()
 now_date = str(now_date_time.strftime("%Y-%m-%d"))
 now_time = str(now_date_time.strftime("%H-%M-%S"))
 
-new_log_file_name = "SalarySlipGenerator_{}.log".format(now_date)
+new_log_file_name = "WirelessAPsTester_{}.log".format(now_date)
 log_file = os.path.join(log_file_location, new_log_file_name)
 
 
