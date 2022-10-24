@@ -1,9 +1,6 @@
 """ Import required python modules """
 from multiprocessing.connection import Client
 import time
-import os
-import datetime
-import sys
 import hashlib
 
 import components.log_writer as log_py
@@ -17,52 +14,62 @@ read_configs = read_config.ReadConfig()
 wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name")
 hash_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "hash_value_file")
 
+# get the sleep seconds
+wait_time = read_configs.get_one_option("CHECK_FILE_DETAILS", "read_wait_time")
 
 
-def check_json():
-    # Check the Json file
-    # return True if Json is changed
-    # return False if Json is not changed
 
-    # Read the hash value
-    f = open(hash_file, "r")
-    file_hash_prev = (f.read())
-    
-    # Get the hash of the file
+def get_file_hash():
+    """ Get the hash of the file """
+
     BLOCK_SIZE = 32768              # The size of each read from the file
 
     file_hash = hashlib.sha256()    # Create the hash object
-    with open(wireless_APS_file, 'rb') as f:        # Open the file to read it's bytes
-        fb = f.read(BLOCK_SIZE)                     # Read from the file. Take in the amount declared above
-        while len(fb) > 0:                          # While there is still data being read from the file
-            file_hash.update(fb)                    # Update the hash
-            fb = f.read(BLOCK_SIZE)                 # Read the next block from the file
+    with open(wireless_APS_file, 'rb') as file_content:         # Open the file to read it's bytes
+        fb = file_content.read(BLOCK_SIZE)                      # Read from the file. Take in the amount declared above
+        while len(fb) > 0:                                      # While there is still data being read from the file
+            file_hash.update(fb)                                # Update the hash
+            fb = file_content.read(BLOCK_SIZE)                  # Read the next block from the file
+    file_hash = file_hash.hexdigest()         # Get the hexadecimal digest of the hash
+    file_content.close()
 
-    file_hash_new = file_hash.hexdigest()         # Get the hexadecimal digest of the hash
+    return file_hash
 
-    # Write hash value to a file
-    fo = open(hash_file, "r+")  # Open a file in read/write mode
-    line = fo.write( file_hash_new )      # Write a line at the end of the file.
-    fo.close()                              # Close opened file
 
-    if (file_hash_prev == file_hash_new):
-        return False
+
+def check_json(start):
+    """ Check the Json file. Return True if Json is changed. Return False if Json is not changed """
+
+    global prev_file_hash
+    if(start == 1):
+        prev_file_hash  = get_file_hash()
     else:
-        return True
+        file_hash = get_file_hash()
+        if(file_hash == prev_file_hash):
+            return False
+        else:
+            prev_file_hash = file_hash
+            return True
 
 
 
 def MonitorChanges():
+    """ Monitor if file has changes """
+
     address = ('localhost', 6000)
     conn = Client(address, authkey=b'secret password')
+    start = 1
     while True:
-        changed_bool = check_json()
+        changed_bool = check_json(start)
+        start = 0
         if(changed_bool == True):
             conn.send('different')
         else:
             conn.send('same')
-        time.sleep(1)               # sleep for 1 second
+        time.sleep(wait_time)               # sleep for 1 second
     # conn.close()
+
+
 
 if __name__ == '__main__':
     MonitorChanges()
