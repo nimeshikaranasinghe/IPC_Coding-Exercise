@@ -12,9 +12,8 @@ read_configs = read_config.ReadConfig()
 
 # Get the file name
 wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name")
-hash_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "hash_value_file")
 
-# get the sleep seconds
+# Get the sleep seconds
 wait_time = int(read_configs.get_one_option("CHECK_FILE_DETAILS", "read_wait_time"))
 
 
@@ -48,13 +47,14 @@ def check_json(start):
         if(file_hash == prev_file_hash):
             return False
         else:
+            log_py.info("'{}' file has changed.".format(wireless_APS_file))
             prev_file_hash = file_hash
             return True
 
 
 
 def MonitorChanges():
-    """ Monitor if file has changes """
+    """ Monitor if file has changed """
 
     address = ('localhost', 6000)
     conn = Client(address, authkey=b'secret password')

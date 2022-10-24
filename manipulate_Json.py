@@ -22,7 +22,7 @@ def make_json():
         ]
     }
     json_string = json.dumps(data)
-    with open('wireless.json', 'w') as outfile:
+    with open('access_points', 'w') as outfile:
         outfile.write(json_string)
 
 def change_json_forward():
@@ -46,7 +46,7 @@ def change_json_forward():
         ]
     }
     json_string = json.dumps(data)
-    with open('wireless.json', 'w') as outfile:
+    with open('access_points', 'w') as outfile:
         outfile.write(json_string)
 
 def change_json_backward():
@@ -70,7 +70,7 @@ def change_json_backward():
         ]
     }
     json_string = json.dumps(data)
-    with open('wireless.json', 'w') as outfile:
+    with open('access_points', 'w') as outfile:
         outfile.write(json_string)
 
 if __name__ == '__main__':
