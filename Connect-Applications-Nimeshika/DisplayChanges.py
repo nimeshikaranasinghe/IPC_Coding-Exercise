@@ -18,21 +18,16 @@ wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name
 
 def identify_changes(curr_json, prev_json):
     """ Identify changes feilds"""
-
     curr_json_list = curr_json[wireless_APS_file]
     prev_json_list = prev_json[wireless_APS_file]
     curr_aps, prev_aps = {}, {}
-
     for i in range(len(curr_json_list)):
         curr_aps[curr_json_list[i]['ssid']] = [curr_json_list[i]['snr'], curr_json_list[i]['channel']]
-
     for i in range(len(prev_json_list)):
         prev_aps[prev_json_list[i]['ssid']] = [prev_json_list[i]['snr'], prev_json_list[i]['channel']]
-
     removed = [x for x in prev_aps.keys() if x not in curr_aps.keys()]
     added = [x for x in curr_aps.keys() if x not in prev_aps.keys()]
     static = [x for x in curr_aps.keys() if x in prev_aps.keys()]
-
     changes = []
     # Only the parameter changes
     for key in static:
@@ -48,26 +43,18 @@ def identify_changes(curr_json, prev_json):
 
     return changes
 
-
-
-def print_changes(start = 0):
-    """ Print changes """
-
+def check_json(start = 0):
     global prev_json_object
-
     if(start == 1):
-        with open(wireless_APS_file, 'r') as fid:
+        with open('wireless.json', 'r') as fid:
             prev_json_object  = json.load(fid)
     else:
-        with open(wireless_APS_file, 'r') as fid:
+        with open('wireless.json', 'r') as fid:
             json_object = json.load(fid)
-
         changes = identify_changes(json_object, prev_json_object)
-        #print('\nChanges:')
-        print('\n')
+        print('\nChanges:')
         for line in changes:
             print(line)
-
         prev_json_object = json_object
 
 
@@ -78,23 +65,19 @@ def DisplayChanges():
     address = ('localhost', 6000)
     listner = Listener(address, authkey=b'secret password')
     conn = listner.accept()
-    log_py.info("Connection accepted from {}".format(listner.last_accepted))
-
+    print('connection accepted from', listner.last_accepted)
     # Initial read of the Json file
-    print_changes(start=1)
+    check_json(start=1)
     while True:
         # Read message if available
         try:
             msg = conn.recv()
         except EOFError:
-            #print('Connection terminated!')
-            log_py.error("Connection terminated!")
+            print('connection terminated!')
             break
-
         # Check if Json is changed and display changes
         if(msg == 'different'):
-            log_py.info ("Printing file changes")
-            print_changes()
+            check_json()
 
     listner.close()
 
