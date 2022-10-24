@@ -47,17 +47,17 @@ def identify_changes(curr_json, prev_json):
 def check_json(start = 0):
     global prev_json_object
     if(start == 1):
-        with open('wireless.json', 'r') as fid:
+        with open(wireless_APS_file, 'r') as fid:
             prev_json_object  = json.load(fid)
     else:
-        with open('wireless.json', 'r') as fid:
+        with open(wireless_APS_file, 'r') as fid:
             json_object = json.load(fid)
         changes = identify_changes(json_object, prev_json_object)
         print('\nChanges:')
         for line in changes:
             print(line)
         prev_json_object = json_object
-        
+
 
 def DisplayChanges():
     address = ('localhost', 6000)
