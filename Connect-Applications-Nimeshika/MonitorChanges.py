@@ -39,7 +39,6 @@ def check_json():
             fb = f.read(BLOCK_SIZE)                 # Read the next block from the file
 
     file_hash_new = file_hash.hexdigest()         # Get the hexadecimal digest of the hash
-    print (file_hash_new)
 
     # Write hash value to a file
     fo = open(hash_file, "r+")  # Open a file in read/write mode
@@ -59,10 +58,8 @@ def MonitorChanges():
     while True:
         changed_bool = check_json()
         if(changed_bool == True):
-            print ("returned true")
             conn.send('different')
         else:
-            print ("returned false")
             conn.send('same')
         time.sleep(1)               # sleep for 1 second
     # conn.close()
