@@ -27,19 +27,19 @@ class ReadConfig:
         return option_value
 
 
-    def get_one_section(self, section):
-        """ Output values of a whole section """
+    # def get_one_section(self, section):
+    #     """ Output values of a whole section """
 
-        opt_values = []
-        for opt in self.configParser.options(section):
-            one_opt = self.configParser.get(section, opt)
-            opt_values.append(one_opt)
+    #     opt_values = []
+    #     for opt in self.configParser.options(section):
+    #         one_opt = self.configParser.get(section, opt)
+    #         opt_values.append(one_opt)
 
-        return opt_values
+    #     return opt_values
 
 
-    # def get_boolean_value(self, section, option):
-    #     """ Get boolean values of one option from ini file """
-    #
-    #     option_value = self.configParser.getboolean(section, option)
-    #     return option_value
+    # # def get_boolean_value(self, section, option):
+    # #     """ Get boolean values of one option from ini file """
+    # #
+    # #     option_value = self.configParser.getboolean(section, option)
+    # #     return option_value
