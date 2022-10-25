@@ -44,7 +44,7 @@ def identify_changes(curr_json, prev_json):
     # Catch Removed APs
     for key in removed:
         changes.append(f'{key} is removed from the list')
-        
+
     # Catch Added APs
     for key in added:
         changes.append(f'{key} is added to the list with SNR {curr_aps[key][0]} and channel {curr_aps[key][1]}')
@@ -77,7 +77,7 @@ def print_changes(start = 0):
 
 
 def DisplayChanges():
-    """ Listen and display any file changes """
+    """ Listen to file changes """
 
     address = (conn_hostname, conn_port)
     listner = Listener(address, authkey=b'secret password')
