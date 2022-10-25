@@ -6,13 +6,12 @@ import components.log_writer as log_py
 import components.read_config_file as read_config
 
 
+# Define globla variables
+read_configs = read_config.ReadConfig()                                                     # Create read config object ot read the ini file
+wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name")          # Get the file name
+conn_hostname = read_configs.get_one_option("CONNECTION_DETIALS", "hostname")               # Get the hostname for the connection 
+conn_port = int(read_configs.get_one_option("CONNECTION_DETIALS", "port"))                  # Get the port number  for the connection 
 
-""" Create relevant objects to call the functions """
-read_configs = read_config.ReadConfig()
-
-
-# Get the file name
-wireless_APS_file = read_configs.get_one_option("CHECK_FILE_DETAILS", "file_name")
 
 
 
@@ -74,7 +73,7 @@ def print_changes(start = 0):
 def DisplayChanges():
     """ Listen and display any file changes """
 
-    address = ('localhost', 6000)
+    address = (conn_hostname, conn_port)
     listner = Listener(address, authkey=b'secret password')
     conn = listner.accept() 
 
