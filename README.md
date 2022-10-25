@@ -20,7 +20,7 @@ This program is used for inter-processes communication between applications insi
 `sudo apt-get install python3.6`
 
 
-## Run:
+## Run/Test:
 
 1.	Download the application from git
 
