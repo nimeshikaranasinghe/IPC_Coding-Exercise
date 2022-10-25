@@ -71,6 +71,7 @@ def print_changes(start = 0):
         
         for line in changes:
             print(line)
+            log_py.info ("{}".format(line))
         
         prev_json_object = json_object
 
