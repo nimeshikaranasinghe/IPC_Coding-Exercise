@@ -1,5 +1,4 @@
 import os
-import time
 import datetime
 import sys
 import logging
@@ -17,6 +16,34 @@ def rename_previous_log_file(current_time, new_log_name, log_file_dir):
         src_file = os.path.join(log_file_dir, new_log_name)
         dest_file = os.path.join(log_file_dir, old_log_file)
         os.rename(src_file, dest_file)
+
+
+def error(msg):
+    """ ERROR Message """
+
+    sys.stdout.write(ERROR)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " ERROR " + msg)
+    sys.stdout.write(RESET)
+    logger.error(msg)
+
+
+def warn(msg):
+    """ WARNING Message """
+
+    sys.stdout.write(WARN)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " WARNING " + msg)
+    sys.stdout.write(RESET) 
+    logger.warning(msg)
+
+
+def info(msg):
+    """ INFORMATION """
+
+    sys.stdout.write(INFO)
+    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " INFO " + msg)
+    sys.stdout.write(RESET)
+    logger.info(msg)
+
 
 
 ERROR = "\033[31m"
@@ -56,32 +83,3 @@ try:
 except Exception as e:
     print("Can not find logs directory", e)
     exit(1)
-
-
-def error(msg):
-    """ ERROR Message """
-
-    sys.stdout.write(ERROR)
-    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " ERROR " + msg)
-    sys.stdout.write(RESET)
-    logger.error(msg)
-
-
-def warn(msg):
-    """ WARNING Message """
-
-    sys.stdout.write(WARN)
-    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " WARNING " + msg)
-    sys.stdout.write(RESET) 
-    logger.warning(msg)
-
-
-def info(msg):
-    """ INFORMATION """
-
-    sys.stdout.write(INFO)
-    #print (time.strftime('%m/%d/%Y %I:%M:%S %p') + " INFO " + msg)
-    sys.stdout.write(RESET)
-    logger.info(msg)
-
-
