@@ -14,33 +14,38 @@ conn_port = int(read_configs.get_one_option("CONNECTION_DETIALS", "port"))      
 
 
 
-
 def identify_changes(curr_json, prev_json):
-    """ Identify changes feilds"""
+    """ Identify changes fields """
     
-    curr_json_list = curr_json[wireless_APS_file]
-    prev_json_list = prev_json[wireless_APS_file]
+    # Get only the APs list under 'access_points'
+    curr_json_list = curr_json['access_points']
+    prev_json_list = prev_json['access_points']
     curr_aps, prev_aps = {}, {}
 
+    # List APs as - ssid : [snr, channel]
     for i in range(len(curr_json_list)):
         curr_aps[curr_json_list[i]['ssid']] = [curr_json_list[i]['snr'], curr_json_list[i]['channel']]
     for i in range(len(prev_json_list)):
         prev_aps[prev_json_list[i]['ssid']] = [prev_json_list[i]['snr'], prev_json_list[i]['channel']]
 
+    # Identify the removed/added/static APs
     removed = [x for x in prev_aps.keys() if x not in curr_aps.keys()]
     added = [x for x in curr_aps.keys() if x not in prev_aps.keys()]
     static = [x for x in curr_aps.keys() if x in prev_aps.keys()]
 
+    # Get the list of changes to a python list
     changes = []
-    # Only the parameter changes
+    # Catch parameter changes
     for key in static:
         for idx, parameter in enumerate(['snr', 'channel']):
             if(curr_aps[key][idx] != prev_aps[key][idx]):
                 changes.append(f"{key}'s {parameter} has changed from {prev_aps[key][idx]} to {curr_aps[key][idx]}")
-    # Removed APs
+
+    # Catch Removed APs
     for key in removed:
         changes.append(f'{key} is removed from the list')
-    # Added APs
+        
+    # Catch Added APs
     for key in added:
         changes.append(f'{key} is added to the list with SNR {curr_aps[key][0]} and channel {curr_aps[key][1]}')
 
@@ -63,6 +68,7 @@ def print_changes(start = 0):
         changes = identify_changes(json_object, prev_json_object)
         print('\n')
         log_py.info ("Printing file changes.")
+        
         for line in changes:
             print(line)
         
